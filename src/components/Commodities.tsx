@@ -5,13 +5,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { ArrowUp, ArrowDown, Gem, Droplet, Flower2, Bitcoin } from "lucide-react";
 
-// Mock data for commodities
+// Updated mock data for commodities with more accurate values
 const commoditiesData = [
-  { name: "Gold", price: 2328.40, change: 12.30, trend: "up", icon: <Gem className="text-yellow-500" /> },
-  { name: "Silver", price: 29.45, change: 0.35, trend: "up", icon: <Gem className="text-gray-400" /> },
-  { name: "Crude Oil", price: 78.25, change: -1.23, trend: "down", icon: <Droplet className="text-black" /> },
-  { name: "Natural Gas", price: 2.14, change: 0.08, trend: "up", icon: <Droplet className="text-blue-500" /> },
-  { name: "Copper", price: 4.52, change: -0.07, trend: "down", icon: <Flower2 className="text-orange-600" /> },
+  { name: "Gold", price: 2423.80, change: 15.30, trend: "up", icon: <Gem className="text-yellow-500" /> },
+  { name: "Silver", price: 31.75, change: 0.64, trend: "up", icon: <Gem className="text-gray-400" /> },
+  { name: "Crude Oil", price: 82.45, change: -1.23, trend: "down", icon: <Droplet className="text-black" /> },
+  { name: "Natural Gas", price: 2.32, change: 0.08, trend: "up", icon: <Droplet className="text-blue-500" /> },
+  { name: "Copper", price: 4.85, change: 0.15, trend: "up", icon: <Flower2 className="text-orange-600" /> },
 ];
 
 const Commodities = () => {

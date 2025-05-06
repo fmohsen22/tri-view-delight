@@ -78,13 +78,22 @@ export const fetchCurrencyRates = async (): Promise<CurrencyData[]> => {
   } catch (error) {
     console.error('Error fetching currency data:', error);
     
-    // Fallback to mock data if API fails
+    // Fallback to mock data with updated rates if API fails
     return Object.keys(currencyNames).map(code => {
       const { change, trend } = generateMockChange();
+      // Use more accurate fallback values for major currencies
+      const fallbackRates: Record<string, number> = {
+        USD: 1.13,
+        GBP: 0.85,
+        CAD: 1.56, 
+        AUD: 1.74,
+        JPY: 162.85
+      };
+      
       return {
         currency: `${currencyNames[code]} (${code})`,
         code,
-        rate: code === "USD" ? 1.13 : Math.random() + 0.5,
+        rate: fallbackRates[code] || 1.0,
         change,
         trend
       };
@@ -97,18 +106,19 @@ export const fetchCurrencyRates = async (): Promise<CurrencyData[]> => {
 export const getHistoricalData = (currencyCode: string): HistoricalData[] => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   
-  // Different patterns for each currency (mock data)
-  const baseValue = currencyCode === "USD" ? 1.13 : 
-                    currencyCode === "GBP" ? 0.85 : 
-                    currencyCode === "CAD" ? 1.48 : 
-                    currencyCode === "AUD" ? 1.62 : 161.24;
+  // Updated patterns for each currency (mock data)
+  const baseValues: Record<string, number[]> = {
+    USD: [1.09, 1.10, 1.11, 1.12, 1.12, 1.13],
+    GBP: [0.86, 0.85, 0.86, 0.85, 0.85, 0.85],
+    CAD: [1.48, 1.50, 1.52, 1.54, 1.55, 1.56],
+    AUD: [1.65, 1.67, 1.69, 1.71, 1.72, 1.74],
+    JPY: [155, 157, 159, 160, 161, 162.85]
+  };
   
-  return months.map((month, idx) => {
-    // Generate slightly different values for each month
-    const variation = (Math.random() - 0.5) * 0.05;
-    return {
-      month,
-      value: baseValue * (1 + variation)
-    };
-  });
+  const values = baseValues[currencyCode] || Array(6).fill(1.0);
+  
+  return months.map((month, idx) => ({
+    month,
+    value: values[idx]
+  }));
 };

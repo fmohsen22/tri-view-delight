@@ -6,26 +6,26 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowUp, ArrowDown, Bitcoin } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Mock data for crypto currencies
+// Updated mock data for crypto currencies with more accurate values
 const cryptoData = [
-  { name: "Bitcoin (BTC)", price: 58432.21, change: 2.34, trend: "up" },
-  { name: "Ethereum (ETH)", price: 3245.67, change: 1.56, trend: "up" },
-  { name: "Ripple (XRP)", price: 0.57, change: -0.03, trend: "down" },
-  { name: "Cardano (ADA)", price: 0.45, change: -0.02, trend: "down" },
-  { name: "Solana (SOL)", price: 142.32, change: 4.21, trend: "up" },
+  { name: "Bitcoin (BTC)", price: 84926, change: 3.24, trend: "up" },
+  { name: "Ethereum (ETH)", price: 4570.38, change: 2.16, trend: "up" },
+  { name: "Ripple (XRP)", price: 0.68, change: -0.03, trend: "down" },
+  { name: "Cardano (ADA)", price: 0.52, change: 0.04, trend: "up" },
+  { name: "Solana (SOL)", price: 178.65, change: 5.32, trend: "up" },
 ];
 
 // Mock historical data for the chart
 const generateHistoricalCryptoData = (crypto: string) => {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   
-  // Different price patterns for each crypto
+  // Different price patterns for each crypto with updated values
   const pricePatterns: Record<string, number[]> = {
-    "BTC": [52000, 48000, 51000, 58000, 56000, 58432],
-    "ETH": [2800, 2600, 2900, 3100, 3000, 3245],
-    "XRP": [0.62, 0.59, 0.55, 0.60, 0.58, 0.57],
-    "ADA": [0.50, 0.48, 0.46, 0.49, 0.47, 0.45],
-    "SOL": [120, 115, 125, 135, 138, 142],
+    "BTC": [75000, 68000, 72000, 78000, 82000, 84926],
+    "ETH": [4100, 3900, 4200, 4300, 4400, 4570],
+    "XRP": [0.72, 0.65, 0.60, 0.67, 0.65, 0.68],
+    "ADA": [0.47, 0.45, 0.48, 0.50, 0.51, 0.52],
+    "SOL": [155, 142, 160, 168, 172, 178],
   };
   
   return months.map((month, idx) => ({
@@ -68,7 +68,7 @@ const CryptoCurrencies = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Cryptocurrency</TableHead>
-                    <TableHead className="text-right">Price (USD)</TableHead>
+                    <TableHead className="text-right">Price (EUR)</TableHead>
                     <TableHead className="text-right">24h Change</TableHead>
                     <TableHead className="text-right">Trend</TableHead>
                   </TableRow>
@@ -82,7 +82,7 @@ const CryptoCurrencies = () => {
                           {item.name}
                         </div>
                       </TableCell>
-                      <TableCell className="text-right">${item.price.toLocaleString()}</TableCell>
+                      <TableCell className="text-right">€{item.price.toLocaleString()}</TableCell>
                       <TableCell className="text-right">
                         <span className={item.trend === "up" ? "text-green-600" : "text-red-600"}>
                           {item.change > 0 ? "+" : ""}
