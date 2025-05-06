@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -9,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // Updated mock data for crypto currencies with more accurate values
 const cryptoData = [
   { name: "Bitcoin (BTC)", price: 84926, change: 3.24, trend: "up" },
-  { name: "Ethereum (ETH)", price: 4570.38, change: 2.16, trend: "up" },
+  { name: "Ethereum (ETH)", price: 3120.75, change: 2.16, trend: "up" },
   { name: "Ripple (XRP)", price: 0.68, change: -0.03, trend: "down" },
   { name: "Cardano (ADA)", price: 0.52, change: 0.04, trend: "up" },
   { name: "Solana (SOL)", price: 178.65, change: 5.32, trend: "up" },
@@ -22,7 +21,7 @@ const generateHistoricalCryptoData = (crypto: string) => {
   // Different price patterns for each crypto with updated values
   const pricePatterns: Record<string, number[]> = {
     "BTC": [75000, 68000, 72000, 78000, 82000, 84926],
-    "ETH": [4100, 3900, 4200, 4300, 4400, 4570],
+    "ETH": [2800, 2650, 2780, 2900, 3050, 3120],
     "XRP": [0.72, 0.65, 0.60, 0.67, 0.65, 0.68],
     "ADA": [0.47, 0.45, 0.48, 0.50, 0.51, 0.52],
     "SOL": [155, 142, 160, 168, 172, 178],
