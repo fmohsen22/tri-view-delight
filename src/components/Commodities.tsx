@@ -3,24 +3,24 @@ import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, ArrowDown, Gold, Oil, TrendingUp } from "lucide-react";
+import { ArrowUp, ArrowDown, Gem, Droplet, Flower2, Bitcoin } from "lucide-react";
 
 // Mock data for commodities
 const commoditiesData = [
-  { name: "Gold", icon: Gold, price: 2350.45, unit: "per oz", change: 0.75, trend: "up" },
-  { name: "Silver", icon: Gold, price: 28.62, unit: "per oz", change: 0.32, trend: "up" },
-  { name: "Oil (Crude)", icon: Oil, price: 78.24, unit: "per barrel", change: -1.23, trend: "down" },
-  { name: "Copper", icon: TrendingUp, price: 4.52, unit: "per lb", change: 0.05, trend: "up" },
-  { name: "Natural Gas", icon: TrendingUp, price: 2.14, unit: "per MMBtu", change: -0.08, trend: "down" },
+  { name: "Gold", price: 2328.40, change: 12.30, trend: "up", icon: <Gem className="text-yellow-500" /> },
+  { name: "Silver", price: 29.45, change: 0.35, trend: "up", icon: <Gem className="text-gray-400" /> },
+  { name: "Crude Oil", price: 78.25, change: -1.23, trend: "down", icon: <Droplet className="text-black" /> },
+  { name: "Natural Gas", price: 2.14, change: 0.08, trend: "up", icon: <Droplet className="text-blue-500" /> },
+  { name: "Copper", price: 4.52, change: -0.07, trend: "down", icon: <Flower2 className="text-orange-600" /> },
 ];
 
 const Commodities = () => {
   return (
     <Card className="w-full shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-yellow-600 to-amber-500 text-white rounded-t-lg">
-        <CardTitle className="text-2xl">Commodity Prices</CardTitle>
+      <CardHeader className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white rounded-t-lg">
+        <CardTitle className="text-2xl">Commodities</CardTitle>
         <CardDescription className="text-slate-100">
-          Track global commodity market prices
+          Current prices for major global commodities
         </CardDescription>
       </CardHeader>
       <CardContent className="p-4">
@@ -30,8 +30,7 @@ const Commodities = () => {
               <TableRow>
                 <TableHead>Commodity</TableHead>
                 <TableHead className="text-right">Price (USD)</TableHead>
-                <TableHead className="text-right">Unit</TableHead>
-                <TableHead className="text-right">24h Change</TableHead>
+                <TableHead className="text-right">Change</TableHead>
                 <TableHead className="text-right">Trend</TableHead>
               </TableRow>
             </TableHeader>
@@ -40,16 +39,15 @@ const Commodities = () => {
                 <TableRow key={item.name}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
-                      <item.icon size={18} className="text-amber-600" />
+                      {item.icon}
                       {item.name}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">${item.price.toFixed(2)}</TableCell>
-                  <TableCell className="text-right">{item.unit}</TableCell>
                   <TableCell className="text-right">
                     <span className={item.trend === "up" ? "text-green-600" : "text-red-600"}>
                       {item.change > 0 ? "+" : ""}
-                      {item.change}%
+                      {item.change.toFixed(2)}
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
