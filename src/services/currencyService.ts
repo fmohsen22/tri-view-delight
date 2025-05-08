@@ -14,6 +14,8 @@ export interface CurrencyData {
 export interface HistoricalData {
   month: string;
   value: number;
+  event?: string;
+  impact?: "positive" | "negative";
 }
 
 // Currency codes and their display names
@@ -24,6 +26,18 @@ const currencyNames: Record<string, string> = {
   AUD: "Australian Dollar",
   JPY: "Japanese Yen"
 };
+
+// Historical events that affected currency markets
+const historicalEvents = [
+  { date: "Jan", currency: "USD", description: "Federal Reserve Policy Meeting", impact: "positive" },
+  { date: "Mar", currency: "USD", description: "Economic sanctions announced", impact: "negative" },
+  { date: "Feb", currency: "GBP", description: "Bank of England rate decision", impact: "positive" },
+  { date: "Apr", currency: "GBP", description: "UK economic report", impact: "negative" },
+  { date: "Jan", currency: "CAD", description: "Oil price fluctuations", impact: "negative" },
+  { date: "May", currency: "CAD", description: "Trade agreement signed", impact: "positive" },
+  { date: "Feb", currency: "AUD", description: "China trade tensions", impact: "negative" },
+  { date: "Apr", currency: "AUD", description: "Commodity price surge", impact: "positive" },
+];
 
 // Cache the currency data for 1 hour
 let cachedData: CurrencyData[] | null = null;
@@ -117,8 +131,17 @@ export const getHistoricalData = (currencyCode: string): HistoricalData[] => {
   
   const values = baseValues[currencyCode] || Array(6).fill(1.0);
   
-  return months.map((month, idx) => ({
-    month,
-    value: values[idx]
-  }));
+  return months.map((month, idx) => {
+    // Check if there's an event for this currency and month
+    const event = historicalEvents.find(
+      e => e.date === month && e.currency === currencyCode
+    );
+    
+    return {
+      month,
+      value: values[idx],
+      event: event?.description,
+      impact: event?.impact as "positive" | "negative" | undefined
+    };
+  });
 };
