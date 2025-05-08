@@ -15,8 +15,9 @@ import {
   ReferenceLine,
 } from "recharts";
 import { Button } from "@/components/ui/button";
-import { getHistoricalData, HistoricalData } from "@/services/currencyService";
+import { getHistoricalData, HistoricalData, TimeInterval } from "@/services/currencyService";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 // Properly typed market events to match HistoricalData impact type
 const marketEvents = [
@@ -30,6 +31,7 @@ const HistoricalChart = () => {
   const [chartData, setChartData] = useState<HistoricalData[]>([]);
   const [loading, setLoading] = useState(true);
   const [showEvents, setShowEvents] = useState(true);
+  const [timeInterval, setTimeInterval] = useState<TimeInterval>("6m");
   
   const currencies = [
     { id: "USD", label: "US Dollar" },
@@ -38,11 +40,19 @@ const HistoricalChart = () => {
     { id: "AUD", label: "Australian Dollar" },
   ];
 
+  const intervals = [
+    { value: "5y", label: "5 Years" },
+    { value: "1y", label: "1 Year" },
+    { value: "6m", label: "6 Months" },
+    { value: "1m", label: "1 Month" },
+    { value: "1w", label: "1 Week" },
+  ];
+
   useEffect(() => {
-    // Load historical data when currency changes
+    // Load historical data when currency or time interval changes
     setLoading(true);
     // In a real app with a real API, this would be an async call
-    const data = getHistoricalData(selectedCurrency);
+    const data = getHistoricalData(selectedCurrency, timeInterval);
     
     // Merge events with historical data - ensure proper typing
     const enhancedData: HistoricalData[] = data.map(dataPoint => {
@@ -58,7 +68,7 @@ const HistoricalChart = () => {
     // Add a small delay to simulate API call for better UX
     const timer = setTimeout(() => setLoading(false), 500);
     return () => clearTimeout(timer);
-  }, [selectedCurrency]);
+  }, [selectedCurrency, timeInterval]);
 
   // EventLabel component for reference lines
   const EventLabel = ({ 
@@ -98,15 +108,25 @@ const HistoricalChart = () => {
         ))}
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="text-sm font-medium">Historical Data</div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setShowEvents(!showEvents)}
-        >
-          {showEvents ? "Hide Events" : "Show Events"}
-        </Button>
+        <div className="flex gap-2 items-center">
+          <div className="text-sm text-muted-foreground mr-1">Interval:</div>
+          <ToggleGroup type="single" value={timeInterval} onValueChange={(value) => value && setTimeInterval(value as TimeInterval)}>
+            {intervals.map((interval) => (
+              <ToggleGroupItem key={interval.value} value={interval.value} size="sm">
+                {interval.label}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowEvents(!showEvents)}
+          >
+            {showEvents ? "Hide Events" : "Show Events"}
+          </Button>
+        </div>
       </div>
       
       <div className="h-[300px] w-full">
@@ -218,7 +238,7 @@ const HistoricalChart = () => {
       )}
       
       <div className="text-center text-sm text-muted-foreground">
-        Historical EUR to {selectedCurrency} exchange rates over the last 6 months
+        Historical EUR to {selectedCurrency} exchange rates over the {intervals.find(i => i.value === timeInterval)?.label.toLowerCase()}
       </div>
     </div>
   );
