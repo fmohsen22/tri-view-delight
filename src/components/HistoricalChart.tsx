@@ -18,16 +18,16 @@ import { Button } from "@/components/ui/button";
 import { getHistoricalData, HistoricalData } from "@/services/currencyService";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Events that affected currency markets
+// Properly typed market events to match HistoricalData impact type
 const marketEvents = [
-  { date: "Jan", description: "Central Bank Policy Meeting", impact: "positive" },
-  { date: "Mar", description: "Economic Sanctions Announced", impact: "negative" },
-  { date: "May", description: "Trade Agreement Signed", impact: "positive" },
+  { date: "Jan", description: "Central Bank Policy Meeting", impact: "positive" as "positive" },
+  { date: "Mar", description: "Economic Sanctions Announced", impact: "negative" as "negative" },
+  { date: "May", description: "Trade Agreement Signed", impact: "positive" as "positive" },
 ];
 
 const HistoricalChart = () => {
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
-  const [chartData, setChartData] = useState<(HistoricalData & { event?: string, impact?: string })[]>([]);
+  const [chartData, setChartData] = useState<HistoricalData[]>([]);
   const [loading, setLoading] = useState(true);
   const [showEvents, setShowEvents] = useState(true);
   
@@ -44,13 +44,13 @@ const HistoricalChart = () => {
     // In a real app with a real API, this would be an async call
     const data = getHistoricalData(selectedCurrency);
     
-    // Merge events with historical data
-    const enhancedData = data.map(dataPoint => {
+    // Merge events with historical data - ensure proper typing
+    const enhancedData: HistoricalData[] = data.map(dataPoint => {
       const event = marketEvents.find(event => event.date === dataPoint.month);
       return {
         ...dataPoint,
         event: event?.description,
-        impact: event?.impact
+        impact: event?.impact as "positive" | "negative" | undefined
       };
     });
     
